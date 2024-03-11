@@ -5,7 +5,11 @@ import type { User } from "$lib/types/user";
 
 declare global {
   namespace App {
-    // interface Error {}
+    interface Error {
+      status?: number;
+      message?: string;
+      description?: string;
+    }
     interface Locals {
       user: User | null;
       session: import("lucia").Session | null;
@@ -17,4 +21,4 @@ declare global {
   }
 }
 
-export { };
+export {};

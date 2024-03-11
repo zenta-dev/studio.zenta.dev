@@ -2,6 +2,7 @@ import { SALT_ROUNDS } from "$env/static/private";
 import { lucia } from "@//server/auth";
 import { prisma } from "@//server/prisma";
 import { error, fail } from "@sveltejs/kit";
+import bcrypt from "bcrypt";
 import { message, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
@@ -43,10 +44,12 @@ export const actions: Actions = {
       });
     }
 
-    const hash = await Bun.password.hash(data.password, {
-      algorithm: "bcrypt",
-      cost: parseInt(SALT_ROUNDS || "10"),
-    });
+    // const hash = await Bun.password.hash(data.password, {
+    //   algorithm: "bcrypt",
+    //   cost: parseInt(SALT_ROUNDS || "10"),
+    // });
+
+    const hash = await bcrypt.hash(data.password, SALT_ROUNDS);
 
     const user = await prisma.user.create({
       data: {

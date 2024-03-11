@@ -1,6 +1,7 @@
 import { lucia } from "@//server/auth";
 import { prisma } from "@//server/prisma";
 import { error, fail } from "@sveltejs/kit";
+import bcrypt from "bcrypt";
 import { message, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
@@ -36,11 +37,7 @@ export const actions: Actions = {
       });
     }
 
-    const match = await Bun.password.verify(
-      data.password,
-      find.password,
-      "bcrypt",
-    );
+    const match = await bcrypt.compare(data.password, find.password);
 
     if (!match) {
       error(401, {

@@ -60,3 +60,7 @@ export const flyAndScale = (
     easing: cubicOut,
   };
 };
+
+export async function getUrlMetadata(url:String) {
+  
+}

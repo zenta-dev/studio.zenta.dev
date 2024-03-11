@@ -2,7 +2,7 @@
   import Header from "@//components/Header.svelte";
   import Button from "@//components/ui/button/button.svelte";
   import type { PageData } from "./$types.js";
-  import SigininForm from "./signup-form.svelte";
+  import SigininForm from "./(components)/signup-form.svelte";
 
   export let data: PageData;
 </script>

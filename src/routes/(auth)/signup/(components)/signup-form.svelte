@@ -33,9 +33,7 @@
           description: result.data?.form.message.description,
           duration: 5000,
         });
-        setTimeout(() => {
-          goto("/signin");
-        }, 5000);
+        goto("/signin");
       } else {
         toast.error("Internal server error", {
           description: "Please try again later",

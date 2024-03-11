@@ -1,7 +1,8 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-
 import type { User } from "$lib/types/user";
+import "@poppanator/sveltekit-svg/dist/svg";
+import type { TechModel } from "./lib/server/prisma";
 
 declare global {
   namespace App {
@@ -15,10 +16,13 @@ declare global {
       session: import("lucia").Session | null;
     }
 
-    // interface PageData {}
+    interface PageData {
+      tech?: TechModel[];
+    }
     // interface PageState {}
     // interface Platform {}
   }
 }
 
-export {};
+export { };
+

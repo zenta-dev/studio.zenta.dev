@@ -33,9 +33,7 @@
           description: result.data?.form.message.description,
           duration: 5000,
         });
-        setTimeout(() => {
-          goto("/");
-        }, 2000);
+        goto("/");
       }
     },
   });

@@ -4,7 +4,7 @@ import { error, fail } from "@sveltejs/kit";
 import { message, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
-import { signInSchema } from "./schema";
+import { signInSchema } from "./(components)/schema";
 
 export const load = (async () => {
   return {
@@ -31,17 +31,21 @@ export const actions: Actions = {
 
     if (!find) {
       error(401, {
-        message: 'Invalid credentials.',
-        description: 'The email or password you entered is incorrect.',
+        message: "Invalid credentials.",
+        description: "The email or password you entered is incorrect.",
       });
     }
 
-    const match = await Bun.password.verify(data.password, find.password, 'bcrypt');
+    const match = await Bun.password.verify(
+      data.password,
+      find.password,
+      "bcrypt",
+    );
 
     if (!match) {
       error(401, {
-        message: 'Invalid credentials.',
-        description: 'The email or password you entered is incorrect.',
+        message: "Invalid credentials.",
+        description: "The email or password you entered is incorrect.",
       });
     }
 

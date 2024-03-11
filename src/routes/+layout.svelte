@@ -1,5 +1,6 @@
 <script>
   import { Toaster } from "$lib/components/ui/sonner";
+  import "iconify-icon";
   import { ModeWatcher } from "mode-watcher";
   import "../app.pcss";
 </script>
@@ -12,6 +13,6 @@
 
 <Toaster />
 <ModeWatcher />
-<div class="h-screen">
+<div class="w-screen h-screen">
   <slot />
 </div>

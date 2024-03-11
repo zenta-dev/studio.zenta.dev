@@ -5,7 +5,7 @@ import { error, fail } from "@sveltejs/kit";
 import { message, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import type { Actions, PageServerLoad } from "./$types";
-import { signUpSchema } from "./schema";
+import { signUpSchema } from "./(components)/schema";
 
 export const load = (async () => {
   return {

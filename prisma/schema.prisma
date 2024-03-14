@@ -68,6 +68,7 @@ model TechVersion {
   id          String    @id @default(uuid())
   techId      String
   tech        Tech      @relation(fields: [techId], references: [id], onDelete: Cascade)
+  hash        String    @unique
   whatNews    String?
   version     Float
   description String?

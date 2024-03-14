@@ -33,7 +33,7 @@
     </div>
     <Separator />
     <ScrollArea class=" h-[calc(100vh-74px)]">
-      {#each Object.entries(data.tech) as [key, value], i}
+      {#each Object.entries(data.tech) as [_, value], i}
         <SidebarItem
           isButton={true}
           buttonActive={value.id == selectedTech.id}

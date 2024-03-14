@@ -8,9 +8,10 @@ export const techFounderFormSchema = z.object({
 })
 
 export const techVersionFormSchema = z.object({
-    whatNews: z.string().optional(),
-    version: z.number(),
+    version: z.number().optional(),
     description: z.string().optional(),
+    whatNews: z.string().optional(),
+    hash: z.string().optional(),
     url: z.string().url().optional(),
 })
 
@@ -21,6 +22,7 @@ export const techFormSchema = z.object({
     url: z.string().url(),
     homepage: z.string().url().nullable(),
     founder: techFounderFormSchema,
+    versions: z.array(techVersionFormSchema),
 })
 
 export type TechFormSchema = typeof techFormSchema

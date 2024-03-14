@@ -12,6 +12,7 @@ export const load = (async () => {
       },
     },
   });
+  console.log('Tech', tech)
   return {
     tech,
   };

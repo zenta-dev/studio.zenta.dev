@@ -2,11 +2,12 @@
   import { goto } from "$app/navigation";
   import { cn } from "$lib/utils.js.js";
   import Combobox from "@//components/combobox.svelte";
-  import { AspectRatio } from "@//components/ui/aspect-ratio";
+  import AspectRatio from "@//components/ui/aspect-ratio/aspect-ratio.svelte";
+  import Button from "@//components/ui/button/button.svelte";
   import * as Form from "@//components/ui/form";
   import { Input } from "@//components/ui/input";
   import ScrollArea from "@//components/ui/scroll-area/scroll-area.svelte";
-  import { Textarea } from "@//components/ui/textarea";
+  import Textarea from "@//components/ui/textarea/textarea.svelte";
   import UrlContainer from "@//components/url-container.svelte";
   import { toast } from "svelte-sonner";
   import {
@@ -63,7 +64,7 @@
       </Form.Field>
     </div>
     <form.label>Logo</form.label>
-    <div class="flex flex-col p-5 mt-4 space-y-4 border rounded-lg">
+    <div class="flex flex-col p-4 mt-4 space-y-4 border rounded-lg">
       <Form.Field {form} name="logo">
         <Form.Control let:attrs>
           <div class="container items-center w-64">
@@ -127,7 +128,7 @@
       </Form.Field>
     </div>
     <form.label>Founder Photo</form.label>
-    <div class="flex flex-col p-5 mt-4 space-y-4 border rounded-lg">
+    <div class="flex flex-col p-4 my-4 space-y-4 border rounded-lg">
       <Form.Field {form} name={"founder.photo"}>
         <Form.Control let:attrs>
           <div class="container items-center w-64">
@@ -144,7 +145,66 @@
         <Form.FieldErrors />
       </Form.Field>
     </div>
-    <div class={cn("flex-col space-y-4")}>
+    <form.label>Tech Version</form.label>
+    <div class="grid grid-cols-3 gap-4 px-4 py-2 mt-4 border rounded-lg">
+      {#each $formData.versions as version, i}
+        <div class="p-4 mt-4 border rounded-lg">
+          <div>
+            <Form.Field {form} name={`versions[${i}].version`}>
+              <Form.Control let:attrs>
+                <form.label>Version</form.label>
+                <Input {...attrs} bind:value={version.version} />
+              </Form.Control>
+              <Form.FieldErrors />
+            </Form.Field>
+          </div>
+          <div class="mt-4">
+            <Form.Field {form} name={`versions[${i}].description`}>
+              <Form.Control let:attrs>
+                <form.label>Description</form.label>
+                <Textarea {...attrs} bind:value={version.description} />
+              </Form.Control>
+              <Form.FieldErrors />
+            </Form.Field>
+          </div>
+          <div class="mt-4">
+            <Form.Field {form} name={`versions[${i}].whatNews`}>
+              <Form.Control let:attrs>
+                <form.label>What news</form.label>
+                <Textarea {...attrs} bind:value={version.whatNews} />
+              </Form.Control>
+              <Form.FieldErrors />
+            </Form.Field>
+          </div>
+          <div class="mt-4">
+            <Form.Field {form} name={`versions[${i}].url`}>
+              <Form.Control let:attrs>
+                <form.label>Url</form.label>
+                <Input {...attrs} bind:value={version.url} />
+              </Form.Control>
+              <Form.FieldErrors />
+            </Form.Field>
+          </div>
+        </div>
+        {#if i === $formData.versions.length - 1}
+          <div class="p-4 mt-4 border rounded-lg">
+            <div class="flex items-center justify-center w-full h-full">
+              <Button
+                variant="ghost"
+                size="sm"
+                aria-label="add"
+                on:click={() => {
+                  $formData.versions = [...$formData.versions, {}];
+                }}
+              >
+                <iconify-icon icon="ph:plus" />
+              </Button>
+            </div>
+          </div>
+        {/if}
+      {/each}
+    </div>
+    <div class={cn("flex-col space-y-4 mt-4")}>
       <Form.Button class="w-full">
         {#if $formData.name}
           Update

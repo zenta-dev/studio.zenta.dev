@@ -44,12 +44,7 @@ export const actions: Actions = {
       });
     }
 
-    // const hash = await Bun.password.hash(data.password, {
-    //   algorithm: "bcrypt",
-    //   cost: parseInt(SALT_ROUNDS || "10"),
-    // });
-
-    const hash = await bcrypt.hash(data.password, SALT_ROUNDS);
+    const hash = await bcrypt.hash(data.password, parseInt(SALT_ROUNDS ?? '10'));
 
     const user = await prisma.user.create({
       data: {

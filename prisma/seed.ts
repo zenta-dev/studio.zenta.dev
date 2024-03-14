@@ -54,6 +54,13 @@ interface TechDetails {
 interface Tech {
     founder: Founder;
     details: TechDetails;
+    versions: {
+        version: number;
+        description?: string;
+        url?: string;
+        whatNews?: string;
+        hash: string;
+    }[];
 }
 
 const techs: Tech[] = [
@@ -73,6 +80,30 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/Java_(programming_language)",
             homepage: "https://www.java.com/",
         },
+        versions: [
+            {
+                version: 8,
+                description: "Java 8 was released on March 18, 2014.",
+                url: "https://en.wikipedia.org/wiki/Java_version_history#Java_8",
+                whatNews: "Lambda expressions, Method references, Optional class, Stream API, Date and Time API, Nashorn JavaScript Engine, Base64 Encode Decode, Default Methods, Type Annotations, etc.",
+                hash: "java8",
+            },
+            {
+                version: 11,
+                description: "Java 11 was released on September 25, 2018.",
+                url: "https://en.wikipedia.org/wiki/Java_version_history#Java_11",
+                whatNews: "Nest-Based Access Control, Dynamic Class-File Constants, Epsilon: A No-Op Garbage Collector, ZGC: A Scalable Low-Latency Garbage Collector, Local-Variable Syntax for Lambda Parameters, HTTP Client (Standard), Flight Recorder, Launch Single-File Source-Code Programs, etc.",
+                hash: "java11",
+            },
+            {
+                version: 17,
+                description: "Java 17 was released on September 14, 2021.",
+                url: "https://en.wikipedia.org/wiki/Java_version_history#Java_17",
+                whatNews: "Sealed classes, Pattern matching for switch, Records, Text blocks, Local-Variable Type Inference, Epsilon: A No-Op Garbage Collector, ZGC: A Scalable Low-Latency Garbage Collector, Local-Variable Syntax for Lambda Parameters, HTTP Client (Standard), Flight Recorder, Launch Single-File Source-Code Programs, etc.",
+                hash: "java17",
+            },
+        ],
+
     },
     // python founder
     {
@@ -90,6 +121,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/Python_(programming_language)",
             homepage: "https://www.python.org/",
         },
+        versions: [
+            {
+                version: 2,
+                description: "Python 2.0 was released on October 16, 2000.",
+                url: "https://en.wikipedia.org/wiki/Python_2",
+                whatNews: "List comprehensions, sys.platform, __future__ module, etc.",
+                hash: "python2",
+            },
+            {
+                version: 3,
+                description: "Python 3.0 was released on December 3, 2008.",
+                url: "https://en.wikipedia.org/wiki/Python_3",
+                whatNews: "Print function, Integer division, Unicode, etc.",
+                hash: "python3",
+            },
+            {
+                version: 3.9,
+                description: "Python 3.9 was released on October 5, 2020.",
+                url: "https://en.wikipedia.org/wiki/Python_3.9",
+                whatNews: "New parser, New syntax features, New library modules, New built-in features, etc.",
+                hash: "python39",
+            },
+        ],
     },
     // javascript founder
     {
@@ -107,6 +161,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/JavaScript",
             homepage: "https://www.javascript.com/",
         },
+        versions: [
+            {
+                version: 6,
+                description: "ECMAScript 6 was released on June 17, 2015.",
+                url: "https://en.wikipedia.org/wiki/ECMAScript#6th_Edition_-_ECMAScript_2015",
+                whatNews: "Arrow functions, Classes, Enhanced object literals, Template literals, Destructuring, Default + Rest + Spread, Let + Const, Iterators + For..Of, Generators, Unicode, Modules, Module Loaders, Map + Set + WeakMap + WeakSet, Proxies, Symbols, Subclassable Built-ins, Promises, Math + Number + String + Array + Object APIs, Binary and Octal Literals, Reflect API, Tail Calls, Decorators, etc.",
+                hash: "es6",
+            },
+            {
+                version: 7,
+                description: "ECMAScript 7 was released on June 14, 2016.",
+                url: "https://en.wikipedia.org/wiki/ECMAScript#7th_Edition_-_ECMAScript_2016",
+                whatNews: "Array.prototype.includes, Exponentiation operator, etc.",
+                hash: "es7",
+            },
+            {
+                version: 8,
+                description: "ECMAScript 8 was released on June 26, 2017.",
+                url: "https://en.wikipedia.org/wiki/ECMAScript#8th_Edition_-_ECMAScript_2017",
+                whatNews: "Async Functions, Shared Memory and Atomics, Object.values/Object.entries, String padding, Object.getOwnPropertyDescriptors, Trailing commas in function parameter lists and calls, etc.",
+                hash: "es8",
+            },
+        ],
     },
     // typescript founder
     {
@@ -125,6 +202,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/TypeScript",
             homepage: "https://www.typescriptlang.org/",
         },
+        versions: [
+            {
+                version: 1,
+                description: "TypeScript 1.0 was released on July 28, 2014.",
+                url: "https://en.wikipedia.org/wiki/TypeScript#History",
+                whatNews: "TypeScript 1.0 introduces the ability to use classes and modules in your code.",
+                hash: "ts1",
+            },
+            {
+                version: 4,
+                description: "TypeScript 4.0 was released on August 20, 2020.",
+                url: "https://en.wikipedia.org/wiki/TypeScript#History",
+                whatNews: "Variadic Tuple Types, Labeled Tuple Elements, Class Property Inference from Constructors, Short-Circuiting Assignment Operators, Custom JSX Factories, etc.",
+                hash: "ts4",
+            },
+            {
+                version: 4.4,
+                description: "TypeScript 4.4 was released on August 26, 2021.",
+                url: "https://en.wikipedia.org/wiki/TypeScript#History",
+                whatNews: "Control Flow Analysis of Aliased Conditions, Symbol and Template String Pattern Index Signatures, etc.",
+                hash: "ts44",
+            },
+        ],
     },
     // c founder
     {
@@ -142,6 +242,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/C_(programming_language)",
             homepage: "https://en.wikipedia.org/wiki/C_(programming_language)",
         },
+        versions: [
+            {
+                version: 89,
+                description: "C89 was published in 1989.",
+                url: "https://en.wikipedia.org/wiki/C89_(C_version)",
+                whatNews: "C89 was the first standard for C programming language.",
+                hash: "c89",
+            },
+            {
+                version: 99,
+                description: "C99 was published in 1999.",
+                url: "https://en.wikipedia.org/wiki/C99",
+                whatNews: "C99 added several new features to the C language, such as inline functions, several new data types, variable length arrays, flexible array members, and improved support for IEEE 754 floating point.",
+                hash: "c99",
+            },
+            {
+                version: 11,
+                description: "C11 was published in 2011.",
+                url: "https://en.wikipedia.org/wiki/C11_(C_standard_revision)",
+                whatNews: "C11 added a standard Boolean data type, _Generic keyword, and improved Unicode support.",
+                hash: "c11",
+            },
+        ],
     },
     // c++ founder
     {
@@ -159,6 +282,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/C%2B%2B",
             homepage: "https://isocpp.org/",
         },
+        versions: [
+            {
+                version: 98,
+                description: "C++98 was published in 1998.",
+                url: "https://en.wikipedia.org/wiki/C%2B%2B98",
+                whatNews: "C++98 was the first standard for C++ programming language.",
+                hash: "cpp98",
+            },
+            {
+                version: 11,
+                description: "C++11 was published in 2011.",
+                url: "https://en.wikipedia.org/wiki/C%2B%2B11",
+                whatNews: "C++11 added several new features to the C++ language, such as auto keyword, nullptr, range-based for loop, lambda expressions, etc.",
+                hash: "cpp11",
+            },
+            {
+                version: 17,
+                description: "C++17 was published in 2017.",
+                url: "https://en.wikipedia.org/wiki/C%2B%2B17",
+                whatNews: "C++17 added several new features to the C++ language, such as inline variables, fold expressions, constexpr if, etc.",
+                hash: "cpp17",
+            },
+        ],
     },
     // kotlin founder
     {
@@ -177,6 +323,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/Kotlin_(programming_language)",
             homepage: "https://kotlinlang.org/",
         },
+        versions: [
+            {
+                version: 1.0,
+                description: "Kotlin 1.0 was released on February 15, 2016.",
+                url: "https://en.wikipedia.org/wiki/Kotlin_(programming_language)#History",
+                whatNews: "Kotlin 1.0 was the first stable version of Kotlin programming language.",
+                hash: "kotlin1",
+            },
+            {
+                version: 1.4,
+                description: "Kotlin 1.4 was released on August 12, 2020.",
+                url: "https://en.wikipedia.org/wiki/Kotlin_(programming_language)#History",
+                whatNews: "Kotlin 1.4 added several new features to the Kotlin language, such as SAM conversions for Kotlin interfaces, JVM records, etc.",
+                hash: "kotlin4",
+            },
+            {
+                version: 1.5,
+                description: "Kotlin 1.5 was released on May 25, 2021.",
+                url: "https://en.wikipedia.org/wiki/Kotlin_(programming_language)#History",
+                whatNews: "Kotlin 1.5 added several new features to the Kotlin language, such as JVM IR backend, Inline classes, etc.",
+                hash: "kotlin5",
+            },
+        ],
     },
     // dart founder
     {
@@ -195,6 +364,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/Dart_(programming_language)",
             homepage: "https://dart.dev/",
         },
+        versions: [
+            {
+                version: 1.0,
+                description: "Dart 1.0 was released on November 14, 2013.",
+                url: "https://en.wikipedia.org/wiki/Dart_(programming_language)#History",
+                whatNews: "Dart 1.0 was the first stable version of Dart programming language.",
+                hash: "dart1",
+            },
+            {
+                version: 2.0,
+                description: "Dart 2.0 was released on August 7, 2018.",
+                url: "https://en.wikipedia.org/wiki/Dart_(programming_language)#History",
+                whatNews: "Dart 2.0 added several new features to the Dart language, such as Strong mode, Dart DevTools, etc.",
+                hash: "dart2",
+            },
+            {
+                version: 2.14,
+                description: "Dart 2.14 was released on August 18, 2021.",
+                url: "https://en.wikipedia.org/wiki/Dart_(programming_language)#History",
+                whatNews: "Dart 2.14 added several new features to the Dart language, such as Null safety, etc.",
+                hash: "dart14",
+            },
+        ],
     },
     // go founder
     {
@@ -213,6 +405,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/Go_(programming_language)",
             homepage: "https://golang.org/",
         },
+        versions: [
+            {
+                version: 1,
+                description: "Go 1.0 was released on March 28, 2012.",
+                url: "https://en.wikipedia.org/wiki/Go_(programming_language)#History",
+                whatNews: "Go 1.0 was the first stable version of Go programming language.",
+                hash: "go1",
+            },
+            {
+                version: 1.13,
+                description: "Go 1.13 was released on August 26, 2019.",
+                url: "https://en.wikipedia.org/wiki/Go_(programming_language)#History",
+                whatNews: "Go 1.13 added several new features to the Go language, such as Error wrapping, Number literal syntax, etc.",
+                hash: "go13",
+            },
+            {
+                version: 1.17,
+                description: "Go 1.17 was released on August 16, 2021.",
+                url: "https://en.wikipedia.org/wiki/Go_(programming_language)#History",
+                whatNews: "Go 1.17 added several new features to the Go language, such as Generics, Error values, Embedding of interfaces, etc.",
+                hash: "go17",
+            },
+        ],
     },
     // rust founder
     {
@@ -230,6 +445,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/Rust_(programming_language)",
             homepage: "https://www.rust-lang.org/",
         },
+        versions: [
+            {
+                version: 1,
+                description: "Rust 1.0 was released on May 15, 2015.",
+                url: "https://en.wikipedia.org/wiki/Rust_(programming_language)#History",
+                whatNews: "Rust 1.0 was the first stable version of Rust programming language.",
+                hash: "rust1",
+            },
+            {
+                version: 1.50,
+                description: "Rust 1.50 was released on March 25, 2021.",
+                url: "https://en.wikipedia.org/wiki/Rust_(programming_language)#History",
+                whatNews: "Rust 1.50 added several new features to the Rust language, such as const generics, etc.",
+                hash: "rust50",
+            },
+            {
+                version: 1.55,
+                description: "Rust 1.55 was released on August 26, 2021.",
+                url: "https://en.wikipedia.org/wiki/Rust_(programming_language)#History",
+                whatNews: "Rust 1.55 added several new features to the Rust language, such as const generics, etc.",
+                hash: "rust55",
+            },
+        ],
     },
     // php founder
     {
@@ -247,6 +485,29 @@ const techs: Tech[] = [
             url: "https://en.wikipedia.org/wiki/PHP",
             homepage: "https://www.php.net/",
         },
+        versions: [
+            {
+                version: 3,
+                description: "PHP 3 was released on June 6, 1998.",
+                url: "https://en.wikipedia.org/wiki/PHP#History",
+                whatNews: "PHP 3 was the first stable version of PHP programming language.",
+                hash: "php3",
+            },
+            {
+                version: 5,
+                description: "PHP 5 was released on July 13, 2004.",
+                url: "https://en.wikipedia.org/wiki/PHP#History",
+                whatNews: "PHP 5 added several new features to the PHP language, such as Object-oriented programming, etc.",
+                hash: "php5",
+            },
+            {
+                version: 8,
+                description: "PHP 8 was released on November 26, 2020.",
+                url: "https://en.wikipedia.org/wiki/PHP#History",
+                whatNews: "PHP 8 added several new features to the PHP language, such as Union Types, Named Arguments, Match Expressions, Attributes, Constructor Property Promotion, etc.",
+                hash: "php8",
+            },
+        ],
     },
     // ruby founder
 ] as const;
@@ -289,6 +550,20 @@ const techSeeder = async () => {
                         },
                     },
                 },
+                versions: {
+                    connectOrCreate: tech.versions.map((version) => ({
+                        where: {
+                            hash: version.hash,
+                        },
+                        create: {
+                            version: version.version,
+                            description: version.description,
+                            url: version.url,
+                            hash: version.hash,
+                            whatNews: version.whatNews,
+                        },
+                    })),
+                },
             },
             create: {
                 createdBy: {
@@ -318,6 +593,20 @@ const techSeeder = async () => {
                             },
                         },
                     },
+                },
+                versions: {
+                    connectOrCreate: tech.versions.map((version) => ({
+                        where: {
+                            hash: version.hash,
+                        },
+                        create: {
+                            version: version.version,
+                            description: version.description,
+                            url: version.url,
+                            whatNews: version.whatNews,
+                            hash: version.hash,
+                        },
+                    })),
                 },
             },
         });

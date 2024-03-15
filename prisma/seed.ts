@@ -615,3 +615,106 @@ const techSeeder = async () => {
 };
 
 await techSeeder();
+
+interface Tag {
+    name: string;
+    description?: string;
+    photo?: string;
+}
+
+const tags = [
+    {
+        name: 'Machine Learning',
+        description: 'Machine learning is a method of data analysis that automates analytical model building. It is a branch of artificial intelligence based on the idea that systems can learn from data, identify patterns and make decisions with minimal human intervention.',
+        photo: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bWFjaGluZSUyMGxlYXJuaW5nfGVufDB8fDB8fHww'
+    },
+    {
+        name: 'Web Development',
+        description: 'Web development is the work involved in developing a website for the Internet or an intranet. Web development can range from developing a simple single static page of plain text to complex web applications, electronic businesses, and social network services.',
+        photo: 'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    },
+    {
+        name: 'Data Science',
+        description: 'Data science is an inter-disciplinary field that uses scientific methods, processes, algorithms and systems to extract knowledge and insights from many structural and unstructured data. Data science is related to data mining, machine learning and big data.',
+        photo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    },
+    {
+        name: 'Mobile Development',
+        description: 'Mobile app development is the act or process by which a mobile app is developed for mobile devices, such as personal digital assistants, enterprise digital assistants or mobile phones.',
+        photo: 'https://saigontechnology.com/assets/media/Blog/typical-process-for-a-successful-mobile-development.jpeg'
+    },
+    {
+        name: 'Cloud Computing',
+        description: 'Cloud computing is the on-demand availability of computer system resources, especially data storage and computing power, without direct active management by the user. The term is generally used to describe data centers available to many users over the Internet.',
+        photo: 'https://media.istockphoto.com/id/1310129219/id/foto/komputasi-awan-pusat-data-rak-server-koneksi-dalam-jaringan-saraf-teknologi.jpg?s=612x612&w=0&k=20&c=DY2KY0odTFlnHcFROTlNI46BAesQ-5VyUH0alKeCFZ8='
+    },
+    {
+        name: 'Cyber Security',
+        description: 'Cybersecurity is the practice of protecting systems, networks, and programs from digital attacks. These attacks are usually aimed at accessing, changing, or destroying sensitive information; extorting money from users; or interrupting normal business processes.',
+        photo: 'https://media.istockphoto.com/id/1412282189/id/foto/kunci-konsep-teknologi-jaringan.jpg?s=612x612&w=0&k=20&c=Pa3vJHisjpY-g_n69UJqnfciZKSVHk-2ZYERHAWdBrE='
+    },
+    {
+        name: 'DevOps',
+        description: 'DevOps is a set of practices that combines software development and IT operations. It aims to shorten the systems development life cycle and provide continuous delivery with high software quality.',
+        photo: 'https://media.istockphoto.com/id/1309642115/id/foto/konsep-devops.jpg?s=612x612&w=0&k=20&c=TFxYmsEVtXJcsACyYRISngw2dAcqk8HLqgcmjnkHnwk='
+    },
+    {
+        name: 'Artificial Intelligence',
+        description: 'Artificial intelligence is intelligence demonstrated by machines, unlike the natural intelligence displayed by humans and animals, which involves consciousness and emotionality.',
+        photo: 'https://images.unsplash.com/photo-1535378620166-273708d44e4c?q=80&w=2157&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    }
+]
+
+const tagSeeder = async () => {
+    for (const tag of tags) {
+        console.log(`Seeding tag: ${tag.name} 🌱`);
+        const res = await prisma.tag.upsert({
+            where: {
+                name: tag.name,
+            },
+            update: {
+                name: tag.name,
+                description: tag.description,
+                photo: tag.photo
+            },
+            create: {
+                name: tag.name,
+                description: tag.description,
+                photo: tag.photo
+            },
+        });
+        console.log(`Seeded tag: ${res.name} 🌱`);
+    }
+};
+
+await tagSeeder();
+
+const person = {
+    email: 'bokirsianpar95@gmail.com',
+    pin: parseInt(Math.random().toString().slice(2, 8))
+}
+
+await prisma.invitation.upsert({
+    where: {
+        email: person.email,
+    },
+    update: {
+        email: person.email,
+        invitedBy: {
+            connect: {
+                email: 'zenta@seeder.com',
+
+            }
+        },
+        pin: person.pin,
+    },
+    create: {
+        email: person.email,
+        invitedBy: {
+            connect: {
+                email: 'zenta@seeder.com'
+            }
+        },
+        pin: person.pin,
+    },
+});

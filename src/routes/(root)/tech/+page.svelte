@@ -15,7 +15,6 @@
   let selectedTech = data.tech[0];
 
   async function generateForm(data: any) {
-    console.log(data);
     return await superValidate(data, zod(techFormSchema));
   }
 </script>

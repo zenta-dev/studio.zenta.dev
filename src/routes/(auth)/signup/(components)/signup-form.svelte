@@ -88,6 +88,13 @@
         </Form.Control>
         <Form.FieldErrors />
       </Form.Field>
+      <Form.Field {form} name="pin">
+        <Form.Control let:attrs>
+          <form.label>Invitation PIN</form.label>
+          <Input {...attrs} bind:value={$formData.pin} />
+        </Form.Control>
+        <Form.FieldErrors />
+      </Form.Field>
     </Card.Content>
     <Card.Footer class={cn("flex-col space-y-4")}>
       <Form.Button class="w-full">Sign Up</Form.Button>

@@ -146,7 +146,7 @@
       </Form.Field>
     </div>
     <form.label>Tech Version</form.label>
-    <div class="grid grid-cols-3 gap-4 px-4 py-2 mt-4 border rounded-lg">
+    <div class="grid grid-cols-2 gap-4 px-4 py-2 mt-4 border rounded-lg">
       {#each $formData.versions as version, i}
         <div class="p-4 mt-4 border rounded-lg">
           <div>
@@ -171,7 +171,11 @@
             <Form.Field {form} name={`versions[${i}].whatNews`}>
               <Form.Control let:attrs>
                 <form.label>What news</form.label>
-                <Textarea {...attrs} bind:value={version.whatNews} />
+                <Textarea
+                  class="min-h-48"
+                  {...attrs}
+                  bind:value={version.whatNews}
+                />
               </Form.Control>
               <Form.FieldErrors />
             </Form.Field>

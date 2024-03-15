@@ -34,6 +34,7 @@ model User {
   TechFounderUpdatedBy TechFounder[] @relation("techFounderUpdatedBy")
   TechCreatedBy        Tech[]        @relation("techCreatedBy")
   TechUpdatedBy        Tech[]        @relation("techUpdatedBy")
+  Invitation           Invitation[]
 }
 
 model Session {
@@ -59,7 +60,7 @@ model TechFounder {
   type      TechFounderType @default(PERSON)
   url       String
   photo     String?
-  Tech      Tech[]
+  techs     Tech[]
   createdAt DateTime        @default(now())
   updatedAt DateTime?       @updatedAt
 }
@@ -93,4 +94,26 @@ model Tech {
   homepage    String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime?     @updatedAt
+  tags        Tag[]
+}
+
+model Tag {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  photo       String?
+  techs       Tech[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+model Invitation {
+  id          String    @id @default(uuid())
+  invitedBy   User?     @relation(fields: [invitedById], references: [id], onDelete: SetNull)
+  invitedById String?
+  email       String    @unique
+  pin         Int
+  message     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
 }

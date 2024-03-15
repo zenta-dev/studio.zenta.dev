@@ -1,4 +1,4 @@
-import { SALT_ROUNDS } from "$env/static/private";
+import { INVITE_MODE, SALT_ROUNDS } from "$env/static/private";
 import { lucia } from "@//server/auth";
 import { prisma } from "@//server/prisma";
 import { error, fail } from "@sveltejs/kit";
@@ -17,12 +17,37 @@ export const load = (async () => {
 export const actions: Actions = {
   default: async (event) => {
     const form = await superValidate(event, zod(signUpSchema));
+
     if (!form.valid) {
       return fail(400, {
         form,
       });
     }
     const { data } = form;
+
+    const isInviteMode = INVITE_MODE === "true";
+    if (isInviteMode) {
+      if (data.pin === undefined || data.pin === "") {
+        error(401, {
+          message: `Pin is required.`,
+          description: `Please enter the pin you received.`,
+        });
+      } else {
+        const find = await prisma.invitation.findUnique({
+          where: {
+            email: data.email,
+          },
+        });
+        if (!find || find.pin !== parseInt(data.pin)) {
+          error(401, {
+            message: `Invalid Pin.`,
+            description: `The pin you entered is invalid.`,
+          });
+        }
+
+      }
+    }
+
 
     if (data.password !== data.confirmPassword) {
       error(401, {

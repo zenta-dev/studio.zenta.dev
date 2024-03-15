@@ -5,6 +5,7 @@ export const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
   confirmPassword: z.string().min(6),
+  pin: z.string().optional(),
 });
 
 export type SignUpSchema = typeof signUpSchema;

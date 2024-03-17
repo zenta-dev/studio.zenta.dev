@@ -1,6 +1,5 @@
 const tailwindcss = require("tailwindcss");
 const autoprefixer = require("autoprefixer");
-const cssnano = require('cssnano');
 
 
 const config = {
@@ -9,8 +8,7 @@ const config = {
     tailwindcss(),
     //But others, like autoprefixer, need to run after,
     autoprefixer,
-    //And some, like cssnano, need to run last.
-    cssnano,
+    //And some, like cssnano, need to run last. 
   ],
 };
 

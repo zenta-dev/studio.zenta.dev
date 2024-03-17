@@ -6,11 +6,6 @@
     const data = await response.json();
     return data;
   }
-
-  let data = getUrlData();
-  data.then((result) => {
-    console.log(result);
-  });
 </script>
 
 <div class="container flex items-center gap-2"></div>

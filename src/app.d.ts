@@ -19,8 +19,7 @@ declare global {
     interface PageData {
       tech?: TechModel[];
     }
-    // interface PageState {}
-    // interface Platform {}
+    // interface PageState {} 
   }
 }
 

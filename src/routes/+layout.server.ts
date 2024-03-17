@@ -1,6 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { LayoutServerLoad } from "./$types";
 
+
 export const load = (async ({ locals, url }) => {
   const isSignUpUrl = url.pathname === "/signup";
   const isSignInUrl = url.pathname === "/signin";

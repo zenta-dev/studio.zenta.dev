@@ -1,8 +1,10 @@
 <script lang="ts">
+  import { PUBLIC_DOMAIN, PUBLIC_NAME } from "$env/static/public";
   import SidebarItem from "@//components/SidebarItem.svelte";
   import Button from "@//components/ui/button/button.svelte";
   import ScrollArea from "@//components/ui/scroll-area/scroll-area.svelte";
   import { Separator } from "@//components/ui/separator";
+  import SvelteSeo from "@//svelte-seo";
   import { Image } from "@unpic/svelte";
   import { superValidate } from "sveltekit-superforms";
   import { zod } from "sveltekit-superforms/adapters";
@@ -96,3 +98,31 @@
     <p>{error.message}</p>
   {/await}
 </div>
+
+<SvelteSeo
+  title={`Tag | ${PUBLIC_NAME}`}
+  description="Tag Management for Zenta Studio"
+  canonical={`${PUBLIC_DOMAIN}/tag`}
+  keywords="  zenta studio, seo, tech, tag, post, manage, effortlessly, integration, seamless, software, web, application, development, coding, programming"
+  openGraph={{
+    title: `Tag | ${PUBLIC_NAME}`,
+    description: "Tag Management for Zenta Studio",
+    url: `${PUBLIC_DOMAIN}/tag`,
+    type: "website",
+    site_name: `${PUBLIC_NAME}`,
+  }}
+  twitter={{
+    card: "summary_large_image",
+    site: "@zenta_studio",
+    creator: "@zenta_studio",
+    title: `Tag | ${PUBLIC_NAME}`,
+    description: "Tag Management for Zenta Studio",
+  }}
+  jsonLd={{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: `${PUBLIC_DOMAIN}/tag`,
+    name: `${PUBLIC_NAME}`,
+    description: "Tag Management for Zenta Studio",
+  }}
+/>

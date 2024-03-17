@@ -19,22 +19,42 @@ enum UserRole {
   ADMIN
 }
 
+enum UserSocialMediaType {
+  GITHUB
+  LINKEDIN
+  TWITTER
+}
+
+model UserSocialMedia {
+  id        String              @id @default(uuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      UserSocialMediaType
+  url       String
+  createdAt DateTime            @default(now())
+  updatedAt DateTime?           @updatedAt
+}
+
 model User {
-  id                   String        @id @default(uuid())
-  email                String        @unique
+  id                   String            @id @default(uuid())
+  email                String            @unique
   name                 String?
   password             String
-  role                 UserRole      @default(USER)
+  bio                  String?
+  role                 UserRole          @default(USER)
   github_id            Int?
   username             String?
+  photo                String?
   sessions             Session[]
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime?     @updatedAt
-  TechFounderCreatedBy TechFounder[] @relation("techFounderCreatedBy")
-  TechFounderUpdatedBy TechFounder[] @relation("techFounderUpdatedBy")
-  TechCreatedBy        Tech[]        @relation("techCreatedBy")
-  TechUpdatedBy        Tech[]        @relation("techUpdatedBy")
-  Invitation           Invitation[]
+  invitations          Invitation[]
+  post                 Post[]
+  socialMedia          UserSocialMedia[]
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime?         @updatedAt
+  TechFounderCreatedBy TechFounder[]     @relation("techFounderCreatedBy")
+  TechFounderUpdatedBy TechFounder[]     @relation("techFounderUpdatedBy")
+  TechCreatedBy        Tech[]            @relation("techCreatedBy")
+  TechUpdatedBy        Tech[]            @relation("techUpdatedBy")
 }
 
 model Session {
@@ -95,6 +115,7 @@ model Tech {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime?     @updatedAt
   tags        Tag[]
+  posts       Post[]
 }
 
 model Tag {
@@ -105,6 +126,7 @@ model Tag {
   techs       Tech[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+  posts       Post[]
 }
 
 model Invitation {
@@ -116,4 +138,23 @@ model Invitation {
   message     String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  title     String
+  slug      String    @unique
+  published Boolean   @default(false)
+  authors   User[]
+  tags      Tag[]
+  stack     Tech[]
+  cover     String?
+  content   Json
+  related   String[]
+  likes     Int       @default(0)
+  dislikes  Int       @default(0)
+  views     Int       @default(0)
+  readTime  Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }

@@ -8,7 +8,7 @@
   import { Input } from "@//components/ui/input";
   import ScrollArea from "@//components/ui/scroll-area/scroll-area.svelte";
   import Textarea from "@//components/ui/textarea/textarea.svelte";
-  import UrlContainer from "@//components/url-container.svelte";
+  // import UrlContainer from "@//components/url-container.svelte";
   import { toast } from "svelte-sonner";
   import {
     superForm,
@@ -86,7 +86,6 @@
         <Form.Control let:attrs>
           <form.label>Defintion Url</form.label>
           <Input {...attrs} bind:value={$formData.url} />
-          <UrlContainer url={$formData.url}>as</UrlContainer>
         </Form.Control>
         <Form.FieldErrors />
       </Form.Field>

@@ -6,5 +6,6 @@ export const load = (async ({ locals }) => {
         redirect(302, "/");
     }
 
-    return {};
+    return {
+    };
 }) satisfies LayoutServerLoad;

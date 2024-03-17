@@ -10,7 +10,6 @@ const config = {
     alias: {
       "@/": "./src/lib/*",
     },
-    inlineStyleThreshold: Infinity
   },
 };
 

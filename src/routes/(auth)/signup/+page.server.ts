@@ -44,10 +44,8 @@ export const actions: Actions = {
             description: `The pin you entered is invalid.`,
           });
         }
-
       }
     }
-
 
     if (data.password !== data.confirmPassword) {
       error(401, {
@@ -69,7 +67,10 @@ export const actions: Actions = {
       });
     }
 
-    const hash = await bcrypt.hash(data.password, parseInt(SALT_ROUNDS ?? '10'));
+    const hash = await bcrypt.hash(
+      data.password,
+      parseInt(SALT_ROUNDS ?? "10"),
+    );
 
     const user = await prisma.user.create({
       data: {

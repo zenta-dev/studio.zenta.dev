@@ -41,7 +41,7 @@
           onClick={() => {
             selectedTech = value;
           }}
-          className="p-2 m-4 min-w-80"
+          className="p-1 m-1 min-w-60 w-min pr-4"
         >
           <div class="flex items-center px-4 py-2">
             <Image

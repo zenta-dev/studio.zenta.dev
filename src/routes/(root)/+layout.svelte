@@ -5,13 +5,13 @@
 </script>
 
 <div class="flex">
-  <div class="border-r-2 min-w-80">
+  <div class="border-r-2 min-w-[calc(17rem)]">
     <a href="/" class="flex items-center justify-center py-4">
       <div class="flex text-2xl">
         <img src={logo} alt="logo" class="w-8 h-8" />
-        <h1 class="flex ml-4 font-semibold">
+        <h1 class="flex ml-4 font-bold">
           studio
-          <span class="hidden sm:block">.zenta.dev</span>
+          <span class="hidden font-normal sm:block">.zenta.dev</span>
         </h1>
       </div>
     </a>
@@ -31,10 +31,25 @@
       </SidebarItem>
       <Separator />
       <!-- <h1 class="text-xl font-semibold text-center">User</h1> -->
-      <SidebarItem href="/invite" className="justify-center">
+      <!-- <SidebarItem href="/invite" className="justify-center">
         <iconify-icon icon="mingcute:invite-line" />
         Invite
       </SidebarItem>
+      <SidebarItem href="/user" className="justify-center">
+        <iconify-icon icon="ph:user-circle-light" />
+        User
+      </SidebarItem> -->
+      <form method="POST">
+        <SidebarItem
+          isButton={true}
+          className="justify-center p-1"
+          formaction="/logout"
+          type="submit"
+        >
+          <iconify-icon icon="ic:round-logout" />
+          Logout
+        </SidebarItem>
+      </form>
     </div>
   </div>
 

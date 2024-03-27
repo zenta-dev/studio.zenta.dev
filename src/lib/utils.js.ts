@@ -61,8 +61,4 @@ export const flyAndScale = (
   };
 };
 
-export async function getUrlMetadata(url: String) {
-
-}
-
-
+export async function getUrlMetadata(url: String) {}

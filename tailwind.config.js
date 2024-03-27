@@ -2,13 +2,11 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 const config = {
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require("@tailwindcss/typography")],
   darkMode: ["class"],
   content: [
     "./src/**/*.{html,js,svelte,ts}",
-    "./node_modules/@nextlint/svelte/dist/**/*.{svelte,js,ts}"
+    "./node_modules/@nextlint/svelte/dist/**/*.{svelte,js,ts}",
   ],
   safelist: ["dark"],
   theme: {

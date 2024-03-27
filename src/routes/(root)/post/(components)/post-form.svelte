@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { PUBLIC_CLODINARY_UPLOAD_PRESET } from "$env/static/public";
   import Combobox from "@//components/combobox.svelte";
   import Editor from "@//components/editor/editor.svelte";
   import { Button } from "@//components/ui/button";
@@ -7,6 +8,7 @@
   import { ScrollArea } from "@//components/ui/scroll-area";
   import type { ComboboxInterface } from "@//constants";
   import { cn } from "@//utils.js";
+  import { CldImage, CldUploadWidget } from "svelte-cloudinary";
   import { toast } from "svelte-sonner";
   import {
     superForm,
@@ -19,10 +21,15 @@
   export let data: SuperValidated<Infer<PostFormSchema>>;
   export let tags: ComboboxInterface[];
   export let stacks: ComboboxInterface[];
-
+  let isLoading: boolean = false;
   const form = superForm(data, {
     dataType: "json",
+    onSubmit() {
+      isLoading = true;
+    },
     onError({ result }) {
+      isLoading = false;
+      console.log("PostForm onError", result.error);
       if (!result.error) return;
 
       return toast.error(result.error.message, {
@@ -31,16 +38,32 @@
       });
     },
     onResult({ result }) {
+      isLoading = false;
+      console.log("PostForm onResult", result);
       if (result.type === "success") {
         toast.success(result.data?.form.message.message, {
           description: result.data?.form.message.description,
           duration: 5000,
         });
-        // goto("/");
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
       }
     },
   });
   const { form: formData, errors, enhance } = form;
+
+  function onUpload(result: any, widget: any) {
+    console.log(result);
+    if (result.event === "success") {
+      console.log(result.info.secure_url);
+      $formData.cover = result.info.secure_url;
+      toast.success("Image uploaded successfully");
+    } else if (result.event === "error") {
+      toast.error("Failed to upload image");
+    }
+    widget.close();
+  }
 </script>
 
 <ScrollArea class="w-full">
@@ -53,7 +76,7 @@
     <div class="flex flex-col mt-4 space-y-4">
       <Form.Field {form} name="title">
         <Form.Control let:attrs>
-          <form.label>Title</form.label>
+          <Form.Label>Title</Form.Label>
           <Input {...attrs} bind:value={$formData.title} />
         </Form.Control>
         <Form.FieldErrors />
@@ -68,7 +91,58 @@
         <Form.FieldErrors />
       </Form.Field>
     </div>
-    <form.label>Authors</form.label>
+    <div class="grid mt-4 space-y-4">
+      <Form.Field {form} name="cover">
+        <Form.Control let:attrs>
+          <Form.Label>Cover</Form.Label>
+          {#if $formData.cover}
+            <CldImage
+              src={$formData.cover}
+              alt="cover"
+              width="1280px"
+              height="360"
+              crop="fill"
+              class=" h-[calc(22rem)] w-[calc(80rem)] rounded-xl"
+              gravity="center"
+            />
+          {/if}
+          <CldUploadWidget
+            {...attrs}
+            bind:value={$formData.cover}
+            uploadPreset={PUBLIC_CLODINARY_UPLOAD_PRESET}
+            let:open
+            options={{
+              sources: ["local", "url", "unsplash"],
+              multiple: false,
+              maxFiles: 1,
+            }}
+            signatureEndpoint="/api/upload"
+            {onUpload}
+            style="background: none;"
+          >
+            <div class="flex items-center justify-center w-full">
+              <button class="" on:click={open}>
+                <div class="p-8 border rounded-lg">
+                  <div class="flex items-center justify-center w-full h-full">
+                    <iconify-icon class="text-3xl" icon="ph:plus" />
+                  </div>
+                </div>
+              </button>
+            </div>
+          </CldUploadWidget>
+        </Form.Control>
+        {#if $errors.cover}
+          <Form.FieldErrors>
+            <span class="invalid">{$errors.cover}</span>
+          </Form.FieldErrors>
+        {/if}
+      </Form.Field>
+    </div>
+    <p
+      class={"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 data-[fs-error]:text-destructive mt-4"}
+    >
+      Authors
+    </p>
     <div class="p-2 my-4 border rounded-lg">
       <div class="grid grid-cols-4 gap-4">
         {#each $formData.authors as author, i}
@@ -136,7 +210,11 @@
       {/if}
     </div>
 
-    <form.label>Tags</form.label>
+    <p
+      class={"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 data-[fs-error]:text-destructive"}
+    >
+      Tags
+    </p>
     <div class="p-2 my-4 border rounded-lg">
       <div class="grid grid-cols-4 gap-4">
         {#each $formData.tags as tag, i}
@@ -203,7 +281,11 @@
         >
       {/if}
     </div>
-    <form.label>Stacks</form.label>
+    <p
+      class={"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 data-[fs-error]:text-destructive"}
+    >
+      Stacks
+    </p>
     <div class="p-2 my-4 border rounded-lg">
       <div class="grid grid-cols-4 gap-4">
         {#each $formData.stacks as stack, i}
@@ -287,6 +369,18 @@
         </div>
       </Form.Control>
     </Form.Field>
-    <Form.Button class="w-full">Publish</Form.Button>
+    <Form.Button class="w-full gap-4" disabled={isLoading}>
+      {#if isLoading}
+        <iconify-icon
+          icon="line-md:loading-twotone-loop"
+          class="text-3xl animate-spin"
+        />
+      {/if}
+      {#if $formData.id}
+        Update
+      {:else}
+        Create
+      {/if}
+    </Form.Button>
   </form>
 </ScrollArea>

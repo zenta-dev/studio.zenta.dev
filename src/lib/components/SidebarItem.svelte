@@ -14,13 +14,22 @@
 {#if isButton}
   <div
     class={cn(
-      "flex items-center rounded-lg justify-between  p-2 gap-2",
+      "flex items-center rounded-lg justify-between  gap-2",
       buttonActive && "bg-neutral-900",
       !buttonActive && "hover:bg-neutral-900",
       className,
     )}
   >
-    <button {...$$props} on:click={onClick}>
+    <button
+      {...$$props}
+      on:click={onClick}
+      class={cn(
+        "flex items-center rounded-lg justify-between w-ful",
+        buttonActive && "bg-neutral-900",
+        !buttonActive && "hover:bg-neutral-900",
+        className,
+      )}
+    >
       <slot />
     </button>
     <slot name="action" />

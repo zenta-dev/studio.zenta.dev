@@ -1,8 +1,13 @@
 <script lang="ts">
   import { PUBLIC_DOMAIN, PUBLIC_NAME } from "$env/static/public";
+  import * as AlertDialog from "$lib/components/ui/alert-dialog";
+  import SidebarItem from "@//components/SidebarItem.svelte";
+  import { Button } from "@//components/ui/button";
   import { ScrollArea } from "@//components/ui/scroll-area";
   import Separator from "@//components/ui/separator/separator.svelte";
   import SvelteSeo from "@//svelte-seo";
+  import { Image } from "@unpic/svelte";
+  import { toast } from "svelte-sonner";
   import { superValidate } from "sveltekit-superforms";
   import { zod } from "sveltekit-superforms/adapters";
   import type { PageData } from "./$types";
@@ -15,6 +20,52 @@
   async function generateForm(data: any) {
     return await superValidate(data, zod(postFormSchema));
   }
+  function newPost(e: Event) {
+    e.preventDefault();
+    selectedPost = {
+      id: "",
+      title: "",
+      slug: "",
+      published: false,
+      cover: null,
+      content: {},
+      summary: "",
+      related: [],
+      views: 0,
+      readTime: 0,
+      createdAt: new Date(),
+      updatedAt: null,
+      authors: [],
+      tags: [],
+      stacks: [],
+    };
+  }
+
+  function deletePost(id: string) {
+    return async () => {
+      const res = await fetch(`/post/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Post deleted successfully", {
+          duration: 5000,
+        });
+        window.location.reload();
+      } else {
+        toast.error("Post deletion failed", {
+          description: data.message,
+          duration: 5000,
+        });
+      }
+    };
+  }
+
+  $: {
+    if (data.post.length > 0) {
+      selectedPost = data.post[0];
+    }
+  }
 </script>
 
 <div class="flex justify-between">
@@ -26,30 +77,33 @@
           <h1 class="hidden sm:block">post</h1>
         </div>
       </a>
-      <iconify-icon icon="akar-icons:plus" />
+      <Button on:click={newPost} class={"py-1.5 px-4 h-min  "}>
+        <iconify-icon icon="akar-icons:plus" />
+        Create
+      </Button>
     </div>
     <Separator />
     <ScrollArea class=" h-[calc(100vh-74px)]">
-      <!-- {#each Object.entries(data.post) as [_, value], i}
+      {#each Object.entries(data.post) as [_, value], i}
         <SidebarItem
           isButton={true}
           buttonActive={value.id == selectedPost.id}
           onClick={() => {
             selectedPost = value;
           }}
-          className="p-2 m-4 min-w-80"
+          className="p-1 m-1 min-w-80 w-min pr-4"
         >
           <div class="flex items-center px-4 py-2">
             <Image
-              src={value.logo}
+              src={value.cover ?? "https://via.placeholder.com/24"}
               layout="constrained"
               width={24}
               height={24}
-              alt={value.name}
+              alt={value.title}
             />
             <div class="ml-4 text-start">
               <h1 class="text-xl font-semibold">
-                {value.name}
+                {value.title}
               </h1>
 
               <p class="text-xs text-neutral-500">
@@ -71,12 +125,33 @@
               </p>
             </div>
           </div>
-
-          <Button variant="ghost" size="sm" aria-label="edit" slot="action">
+          <AlertDialog.Root>
+            <AlertDialog.Trigger>
+              <Button variant="ghost" aria-label="edit">
+                <iconify-icon class="text-red-500" icon="jam:trash" />
+              </Button>
+            </AlertDialog.Trigger>
+            <AlertDialog.Content>
+              <AlertDialog.Header>
+                <AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+                <AlertDialog.Description>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialog.Description>
+              </AlertDialog.Header>
+              <AlertDialog.Footer>
+                <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+                <AlertDialog.Action on:click={deletePost(value.id)}
+                  >Continue</AlertDialog.Action
+                >
+              </AlertDialog.Footer>
+            </AlertDialog.Content>
+          </AlertDialog.Root>
+          <!-- <Button variant="ghost" size="sm" aria-label="edit" slot="action">
             <iconify-icon icon="ph:dots-three-vertical-bold" />
-          </Button>
+          </Button> -->
         </SidebarItem>
-      {/each} -->
+      {/each}
     </ScrollArea>
   </section>
 </div>

@@ -34,7 +34,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       await prisma.session.delete({
         where: {
           id: session.id,
-          userId: session.userId
+          userId: session.userId,
         },
       });
       event.locals.user = null;
@@ -53,6 +53,4 @@ export const handle: Handle = async ({ event, resolve }) => {
       return resolve(event);
     }
   }
-
-
 };

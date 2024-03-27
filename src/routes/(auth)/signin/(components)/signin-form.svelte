@@ -16,10 +16,12 @@
 
   export let data: SuperValidated<Infer<SignInSchema>>;
   export let className: string | undefined = undefined;
+  let isLoading: boolean = false;
 
   const form = superForm(data, {
     validators: zodClient(signInSchema),
     onError({ result }) {
+      isLoading = false;
       if (!result.error) return;
 
       return toast.error(result.error.message, {
@@ -27,7 +29,11 @@
         duration: 5000,
       });
     },
+    onSubmit() {
+      isLoading = true;
+    },
     onResult({ result }) {
+      isLoading = false;
       if (result.type === "success") {
         toast.success(result.data?.form.message.message, {
           description: result.data?.form.message.description,
@@ -67,7 +73,16 @@
       </Form.Field>
     </Card.Content>
     <Card.Footer class={cn("flex-col space-y-4")}>
-      <Form.Button class="w-full">Sign In</Form.Button>
+      <Form.Button disabled={isLoading} class="w-full">
+        {#if isLoading}
+          <iconify-icon
+            icon="line-md:loading-twotone-loop"
+            class="animate-spin"
+          />
+        {:else}
+          Sign In
+        {/if}
+      </Form.Button>
       <a href="/signup">
         Don't have an account?
         <span class={cn("text-blue-500")}>Sign Up</span>

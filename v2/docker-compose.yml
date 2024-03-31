@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    restart: always
+    environment:
+      POSTGRES_USER: matt
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgres
+
+volumes:
+  db_data:

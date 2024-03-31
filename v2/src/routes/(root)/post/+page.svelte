@@ -4,8 +4,8 @@
 	import { SEO } from '@//components/SEO';
 	import { Button } from '@//components/button';
 	import { getTagLocal, setPostLocal } from '@//store';
-	import { Image } from '@unpic/svelte';
 	import { onMount } from 'svelte';
+	import { CldImage, CldOgImage } from 'svelte-cloudinary';
 	import { toast } from 'svelte-sonner';
 	import type { PageData } from './$types';
 
@@ -70,13 +70,24 @@
 				href={`/post/` + post.id + `?tag=${isTagAvailable}&tech=${isTechAvailable}`}
 				class="flex items-center flex-grow gap-4 mr-4"
 			>
-				<Image
-					src={post.cover || 'https://via.placeholder.com/64'}
+				<CldOgImage
+					src={post.cover || 'al9y7x2wmsdkvsjaejvb'}
 					width={64}
 					height={64}
-					objectFit="contain"
+					alt={post.title}
+					twitterTitle={post.title}
+				/>
+
+				<CldImage
+					src={post.cover || 'al9y7x2wmsdkvsjaejvb'}
+					width={64}
+					height={64}
+					objectFit="cover"
 					alt={post.title}
 					class="rounded-xl"
+					loading="lazy"
+					fetchpriority="low"
+					quality="auto"
 				/>
 				<div class="flex-col items-center">
 					<h1 class="text-xl font-semibold">

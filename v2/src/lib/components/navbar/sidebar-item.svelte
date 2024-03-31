@@ -11,7 +11,9 @@
 	let className: Props['class'] = undefined;
 
 	export { className as class };
-	$: active = href === $page.url.pathname;
+	$: active =
+		(href === $page.url.pathname || href.includes($page.url.pathname.split('/')[1])) &&
+		href !== '/';
 </script>
 
 <a

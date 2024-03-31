@@ -2,15 +2,17 @@
 	import { PUBLIC_CLODINARY_UPLOAD_PRESET } from '$env/static/public';
 	import { Add } from '@//assets/icons';
 	import { Textarea } from '@//components/input';
+	import { cn } from '@//utils';
 	import { CldImage, CldUploadWidget } from 'svelte-cloudinary';
 
 	export let value: string | undefined;
 	export let onUpload: (result: any, widget: any) => void;
+	console.log({ value });
 </script>
 
-<div class="relative h-full">
+<div class={cn('h-full', value === '' || value === undefined ? 'flex' : 'relative')}>
 	{#if value}
-		<div class="relative rounded-xl">
+		<div class={cn('rounded-xl', value === '' || value === undefined ? 'hidden' : 'relative')}>
 			<CldImage
 				src={value}
 				alt="cover"
@@ -23,10 +25,18 @@
 				fetchpriority="low"
 			/>
 			<Textarea
-				class="absolute z-10 h-20 rounded-xl bottom-1 sm:h-16 md:h-12 lg:h-10 bg-neutral-900 "
+				class={cn(
+					'z-10 h-20 rounded-xl bottom-1 sm:h-16 md:h-12 lg:h-10 bg-neutral-900 ',
+					value === '' || value === undefined ? 'flex' : 'absolute'
+				)}
 				bind:value
 			/>
-			<div class="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
+			<div
+				class={cn(
+					' inset-0 bg-black opacity-50 rounded-xl',
+					value === '' || value === undefined ? 'hidden' : 'absolute'
+				)}
+			></div>
 		</div>
 	{/if}
 	<CldUploadWidget
@@ -63,7 +73,12 @@
 		signatureEndpoint="/api/image/upload"
 		{onUpload}
 	>
-		<div class="absolute flex items-center justify-center w-full top-1/3">
+		<div
+			class={cn(
+				'flex items-center justify-center w-full top-1/3',
+				value === '' || value === undefined ? 'flex' : 'absolute'
+			)}
+		>
 			<button class="" on:click={open} type="button">
 				<div class="p-8 border border-white rounded-lg bg-white/50">
 					<div class="flex items-center justify-center w-full h-full">

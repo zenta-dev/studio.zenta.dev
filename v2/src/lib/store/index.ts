@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { writable } from 'svelte/store';
 
 const expiredAt = Date.now() + 1000 * 60 * 60 * 24; // 24 hours
 
@@ -57,3 +58,5 @@ function setPostLocal(value: any) {
 }
 
 export { getPostLocal, getTagLocal, getTechLocal, setPostLocal, setTagLocal, setTechLocal };
+
+export const imgStore = writable('');

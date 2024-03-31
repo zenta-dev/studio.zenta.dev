@@ -8,6 +8,9 @@ export const load = (async () => {
 			name: true,
 			logo: true,
 			updatedAt: true
+		},
+		orderBy: {
+			updatedAt: 'desc'
 		}
 	});
 	return { techs };

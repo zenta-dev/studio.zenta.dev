@@ -1,37 +1,10 @@
-import { lucia } from '@//server/auth';
+import { authenticate } from '@//server/auth';
 import { prisma } from '@//server/prisma';
 import type { RequestHandler } from './$types';
 
-export const DELETE: RequestHandler = async ({ params, locals }) => {
+export const DELETE: RequestHandler = async ({ params, locals, fetch }) => {
 	try {
-		const sesId = locals.session?.id;
-		if (!sesId) {
-			return new Response(
-				JSON.stringify({
-					success: false,
-					message: 'You need to be logged in to delete a post'
-				}),
-				{
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			);
-		}
-		const valid = lucia.validateSession(sesId);
-		if (!valid) {
-			return new Response(
-				JSON.stringify({
-					success: false,
-					message: 'You need to be logged in to delete a post'
-				}),
-				{
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			);
-		}
+		authenticate(locals);
 
 		const { id } = params;
 
@@ -54,8 +27,6 @@ export const DELETE: RequestHandler = async ({ params, locals }) => {
 				id
 			}
 		});
-
-		console.log('d', d);
 
 		await fetch('/api/image/delete', {
 			method: 'POST',

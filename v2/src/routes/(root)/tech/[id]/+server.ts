@@ -1,37 +1,10 @@
-import { lucia } from '@//server/auth';
+import { authenticate } from '@//server/auth';
 import { prisma } from '@//server/prisma';
 import type { RequestHandler } from './$types';
 
-export const DELETE: RequestHandler = async ({ params, locals }) => {
+export const DELETE: RequestHandler = async ({ params, locals, fetch }) => {
 	try {
-		const sesId = locals.session?.id;
-		if (!sesId) {
-			return new Response(
-				JSON.stringify({
-					success: false,
-					message: 'You need to be logged in to delete a tech'
-				}),
-				{
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			);
-		}
-		const valid = lucia.validateSession(sesId);
-		if (!valid) {
-			return new Response(
-				JSON.stringify({
-					success: false,
-					message: 'You need to be logged in to delete a tech'
-				}),
-				{
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}
-			);
-		}
+		authenticate(locals);
 
 		const { id } = params;
 
@@ -49,12 +22,21 @@ export const DELETE: RequestHandler = async ({ params, locals }) => {
 			);
 		}
 
-		await prisma.tech.delete({
+		const d = await prisma.tech.delete({
 			where: {
 				id
 			}
 		});
 
+		await fetch('/api/image/delete', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				url: d.logo
+			})
+		});
 		return new Response(JSON.stringify({ success: true, message: 'Tech deleted' }), {
 			headers: {
 				'Content-Type': 'application/json'

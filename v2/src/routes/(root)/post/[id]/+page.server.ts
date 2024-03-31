@@ -151,9 +151,11 @@ export const actions: Actions = {
 		try {
 			const form = await superValidate(event, zod(postFormSchema));
 
+			const { data } = form;
+			console.log('DATA: ', data);
+
 			if (!form.valid) {
 				console.log('FAIL REASON: ', form.errors);
-				const { data } = form;
 				const authors = data.authors;
 				const tags = data.tags;
 				const stacks = data.stacks;
@@ -186,9 +188,6 @@ export const actions: Actions = {
 				}
 			}
 
-			const { data } = form;
-
-			console.log('DATA: ', data);
 
 			const find = await prisma.post.findUnique({
 				where: {

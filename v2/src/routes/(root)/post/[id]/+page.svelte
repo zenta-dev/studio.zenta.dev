@@ -8,17 +8,18 @@
 	import { FormError } from '@//components/error';
 	import { Input, Textarea } from '@//components/input';
 	import { Label } from '@//components/label';
-	import { getTagLocal, getTechLocal, setTagLocal, setTechLocal } from '@//store';
+	import { getTagLocal, getTechLocal, imgStore, setTagLocal, setTechLocal } from '@//store';
 
 	import { ImageUpload } from '@//components/image';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import { superForm } from 'sveltekit-superforms';
 	import { Svroller } from 'svrollbar';
+	import FormCombobox from '../../../../lib/components/combobox/form-combobox.svelte';
 	import type { PageData } from './$types';
-	import FormCombobox from './(comps)/form-combobox.svelte';
 
 	export let data: PageData;
+	let img: string;
 	let isLoading = false;
 
 	const { form, errors, constraints, enhance } = superForm(data.form, {
@@ -30,15 +31,15 @@
 			isLoading = false;
 			if (result.type === 'success') {
 				if ($form.id) {
-					// Promise.resolve(
-					// 	fetch('/api/image/delete', {
-					// 		method: 'POST',
-					// 		headers: {
-					// 			'Content-Type': 'application/json'
-					// 		},
-					// 		body: JSON.stringify({ url: img })
-					// 	})
-					// );
+					Promise.resolve(
+						fetch('/api/image/delete', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({ url: img })
+						})
+					);
 					toast.success('Post updated successfully');
 				} else {
 					toast.success('Post created successfully');
@@ -62,6 +63,7 @@
 	function onUpload(result: any, widget: any) {
 		if (result.event === 'success') {
 			$form.cover = result.info.secure_url;
+			imgStore.set(result.info.secure_url);
 			toast.success('Image uploaded successfully');
 		} else if (result.event === 'error') {
 			toast.error('Failed to upload image');
@@ -98,6 +100,11 @@
 				data.stacks = techL.data;
 			}
 		}
+
+		imgStore.set($form.cover);
+		imgStore.subscribe((value) => {
+			img = value;
+		});
 	});
 </script>
 
@@ -105,10 +112,10 @@
 	<nav class="flex items-center gap-4 p-4 bg-foreground/5">
 		<a href="/post" class="text-xl text-center"><Back /></a>
 		<p class="text-xl font-semibold text-center">
-			{#if data.form.data.title}
-				{data.form.data.title.length > 20
-					? data.form.data.title.slice(0, 20) + '...'
-					: data.form.data.title}
+			{#if data.form.data.title || 'New Post'}
+				{data.form.data.title || 'New Post'.length > 20
+					? data.form.data.title || 'New Post'.slice(0, 20) + '...'
+					: data.form.data.title || 'New Post'}
 			{:else}
 				New Post
 			{/if}
@@ -196,13 +203,13 @@
 </main>
 
 <SEO
-	title={`${data.form.data.title} - ${PUBLIC_NAME}`}
+	title={`${data.form.data.title || 'New Post'} - ${PUBLIC_NAME}`}
 	description="Effortlessly Manage Tech, Tag, and Post with Zenta Studio for Seamless SEO Integration"
 	canonical={`${PUBLIC_DOMAIN}/post/${data.form.data.id}`}
-	keywords={`manage, ${data.form.data.title}`}
+	keywords={`manage, ${data.form.data.title || 'New Post'}`}
 	openGraph={{
-		title: `${data.form.data.title} - ${PUBLIC_NAME}`,
-		description: `Manage ${data.form.data.title} post`,
+		title: `${data.form.data.title || 'New Post'} - ${PUBLIC_NAME}`,
+		description: `Manage ${data.form.data.title || 'New Post'} post`,
 		url: `${PUBLIC_DOMAIN}/post/${data.form.data.id}`,
 		type: 'website',
 		site_name: `${PUBLIC_NAME}`
@@ -211,14 +218,14 @@
 		card: 'summary_large_image',
 		site: '@zenta_studio',
 		creator: '@zenta_studio',
-		title: `${data.form.data.title} - ${PUBLIC_NAME}`,
-		description: `Manage ${data.form.data.title} post`
+		title: `${data.form.data.title || 'New Post'} - ${PUBLIC_NAME}`,
+		description: `Manage ${data.form.data.title || 'New Post'} post`
 	}}
 	jsonLd={{
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
 		url: `${PUBLIC_DOMAIN}/post/${data.form.data.id}`,
-		name: `${data.form.data.title} - ${PUBLIC_NAME}`,
+		name: `${data.form.data.title || 'New Post'} - ${PUBLIC_NAME}`,
 		description:
 			'Effortlessly Manage Tech, Tag, and Post with Zenta Studio for Seamless SEO Integration'
 	}}

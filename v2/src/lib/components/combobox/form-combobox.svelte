@@ -2,11 +2,10 @@
 	import type { ComboboxInterface } from '@/';
 	import { Add } from '@//assets/icons';
 	import { Button } from '@//components/button';
-	import { Combobox } from '@//components/combobox';
+	import { Combobox, type FormItemsArray } from '@//components/combobox';
 	import { FormError } from '@//components/error';
 	import { Label } from '@//components/label';
-	import { toast } from 'svelte-sonner';
-	import type { FormItemsArray } from './types';
+	import { toast } from 'svelte-sonner'; 
 
 	export let onSelected: (item: ComboboxInterface) => void;
 	export let formItems: FormItemsArray;

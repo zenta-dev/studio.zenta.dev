@@ -6,7 +6,6 @@
 	import Document from '@tiptap/extension-document';
 	import BaseHeading from '@tiptap/extension-heading';
 	import HorizontalRule from '@tiptap/extension-horizontal-rule';
-	import Image from '@tiptap/extension-image';
 	import Mention from '@tiptap/extension-mention';
 	import Paragraph from '@tiptap/extension-paragraph';
 	import Table from '@tiptap/extension-table';
@@ -29,9 +28,9 @@
 	let editor: Editor;
 
 	const headingClass: Record<number, string> = {
-		1: 'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl',
-		2: 'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0',
-		3: 'scroll-m-20 text-2xl font-semibold tracking-tight'
+		1: 'scroll-m-20 text-4xl font-extrabold lg:text-5xl',
+		2: 'scroll-m-20 text-3xl font-semibold lg:text-4xl',
+		3: 'scroll-m-20 text-2xl font-semibold lg:text-3xl'
 	};
 
 	onMount(() => {
@@ -102,9 +101,9 @@
 				CodeBlockLowlight.configure({
 					lowlight
 				}),
-				Image.configure({
-					inline: true
-				}),
+				// Image.configure({
+				// 	inline: true
+				// }),
 				Mention.configure({
 					renderText({ options, node }) {
 						return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
@@ -161,6 +160,5 @@
 	{#if editor}
 		<EditorMenubar {editor} className="border rounded-lg" />
 	{/if}
-
 	<div bind:this={element} class="p-4 min-h-24 focus:outline-none" {...$$restProps} />
 </div>

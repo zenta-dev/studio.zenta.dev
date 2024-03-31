@@ -7,6 +7,7 @@
 	export let editor: Editor;
 	export let className: string | undefined = undefined;
 	let ytUrl = '';
+	let imgLink = '';
 	const addYoutubeVideo = (url: string) => {
 		console.log(url);
 		if (url) {
@@ -15,6 +16,14 @@
 				width: Math.max(320, Math.min(1920, 640)),
 				height: Math.max(180, Math.min(1080, 360))
 			});
+		}
+	};
+
+	const setImage = (event: InputEvent) => {
+		const value = (event.target as HTMLInputElement).value;
+		if (value) {
+			console.log(value);
+			imgLink = value;
 		}
 	};
 </script>
@@ -63,6 +72,18 @@
 	>
 		<Table />
 	</Button>
+	<!-- <Button
+		class="px-3 py-2"
+		on:click={() =>
+			editor
+				.chain()
+				.focus()
+				.setImage({ src: 'https://via.placeholder.com/64', alt: 'img', title: 'editor img' })
+				.run()}
+		variant={editor.isActive('blockqoute') ? 'default' : 'ghost'}
+	>
+		<ImageIcon />
+	</Button> -->
 
 	<Button
 		class="px-3 py-2"

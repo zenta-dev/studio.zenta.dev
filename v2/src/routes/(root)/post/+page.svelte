@@ -56,7 +56,10 @@
 <main class="flex flex-col">
 	<nav class="flex items-center justify-between p-4 bg-foreground/5">
 		<a href="/post" class="text-2xl font-semibold">Post</a>
-		<a href="/post/new" class="flex items-center gap-2 p-2 rounded-lg bg-foreground/5">
+		<a
+			href={'/post/new' + `?tag=${isTagAvailable}&tech=${isTechAvailable}`}
+			class="flex items-center gap-2 p-2 rounded-lg bg-foreground/5"
+		>
 			<Add class="w-8 h-8" />
 			<span> Create </span>
 		</a>

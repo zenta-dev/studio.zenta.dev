@@ -10,19 +10,18 @@
 	import { Svroller } from 'svrollbar';
 
 	export let onSelected: (item: ComboboxInterface) => void;
+	export let onClose: (lastIem: ComboboxInterface) => void;
 	export let items: ComboboxInterface[];
 	export let value: ComboboxInterface = { label: 'Select an item' };
 	export let selectedItems: string[] = [];
 
 	let filteredItems: ComboboxInterface[] = [];
 	let menuOpen = false;
-	let inputValue = '';
 
 	const comboboxId = generateId();
 
 	const handleInput = (e: InputEvent) => {
 		const value = (e.target as HTMLInputElement).value;
-		inputValue = value;
 		filteredItems = items.filter((item) => item.label.toLowerCase().includes(value.toLowerCase()));
 	};
 
@@ -44,6 +43,11 @@
 
 		onSelected(item);
 		value = item;
+		menuOpen = false;
+	}
+
+	function handleClose() {
+		onClose(value);
 		menuOpen = false;
 	}
 </script>
@@ -89,7 +93,7 @@
 				variant="ghost"
 				class="p-0 px-2"
 				on:click={() => {
-					menuOpen = !menuOpen;
+					handleClose();
 				}}
 			>
 				<Close class="w-6 h-6" />

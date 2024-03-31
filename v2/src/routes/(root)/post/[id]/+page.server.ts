@@ -148,84 +148,92 @@ export const load = (async ({ params, url }) => {
 
 export const actions: Actions = {
 	create: async (event) => {
-		const form = await superValidate(event, zod(postFormSchema));
+		try {
+			const form = await superValidate(event, zod(postFormSchema));
 
-		if (!form.valid) {
+			if (!form.valid) {
+				console.log('FAIL REASON: ', form.errors);
+				const { data } = form;
+				const authors = data.authors;
+				const tags = data.tags;
+				const stacks = data.stacks;
+				const lastAuthor = authors[authors.length - 1];
+				const lastTag = tags[tags.length - 1];
+				const lastStack = stacks[stacks.length - 1];
+
+				if (tags.length == 0 && lastTag.id === '') {
+					return fail(400, {
+						form
+					});
+				} else if (tags.length > 0 && lastTag.id === '') {
+					tags.pop();
+				}
+
+				if (authors.length == 0 && lastAuthor.id === '') {
+					return fail(400, {
+						form
+					});
+				} else if (authors.length > 0 && lastAuthor.id === '') {
+					authors.pop();
+				}
+
+				if (stacks.length == 0 && lastStack.id === '') {
+					return fail(400, {
+						form
+					});
+				} else if (stacks.length > 0 && lastStack.id === '') {
+					stacks.pop();
+				}
+			}
+
 			const { data } = form;
-			const authors = data.authors;
-			const tags = data.tags;
-			const stacks = data.stacks;
-			const lastAuthor = authors[authors.length - 1];
-			const lastTag = tags[tags.length - 1];
-			const lastStack = stacks[stacks.length - 1];
 
-			if (tags.length == 0 && lastTag.id === '') {
-				return fail(400, {
-					form
+			console.log('DATA: ', data);
+
+			const find = await prisma.post.findUnique({
+				where: {
+					slug: data.title.toLowerCase().replace(/\s/g, '-')
+				}
+			});
+
+			if (find) {
+				error(400, {
+					message: `Slug already exists.`,
+					description: `Please choose a different slug.`
 				});
-			} else if (tags.length > 0 && lastTag.id === '') {
-				tags.pop();
 			}
 
-			if (authors.length == 0 && lastAuthor.id === '') {
-				return fail(400, {
-					form
-				});
-			} else if (authors.length > 0 && lastAuthor.id === '') {
-				authors.pop();
-			}
+			await prisma.post.create({
+				data: {
+					title: data.title,
+					slug: data.title.toLowerCase().replace(/\s/g, '-'),
+					published: true,
+					summary: data.summary,
+					authors: {
+						connect: data.authors.map((author) => ({ id: author.id }))
+					},
+					tags: {
+						connect: data.tags.map((tag) => ({ id: tag.id }))
+					},
+					stacks: {
+						connect: data.stacks.map((stack) => ({ id: stack.id }))
+					},
+					cover: data.cover,
+					content: data.content as JSONContent
+				}
+			});
 
-			if (stacks.length == 0 && lastStack.id === '') {
-				return fail(400, {
-					form
-				});
-			} else if (stacks.length > 0 && lastStack.id === '') {
-				stacks.pop();
-			}
-		}
-
-		const { data } = form;
-
-		console.log('DATA: ', data);
-
-		const find = await prisma.post.findUnique({
-			where: {
-				slug: data.title.toLowerCase().replace(/\s/g, '-')
-			}
-		});
-
-		if (find) {
-			error(400, {
-				message: `Slug already exists.`,
-				description: `Please choose a different slug.`
+			return message(form, {
+				success: true,
+				message: `Post created successfully.`,
+				description: `The post has been created successfully.`
+			});
+		} catch (error) {
+			console.error(error);
+			return fail(400, {
+				error
 			});
 		}
-
-		await prisma.post.create({
-			data: {
-				title: data.title,
-				slug: data.title.toLowerCase().replace(/\s/g, '-'),
-				published: true,
-				summary: data.summary,
-				authors: {
-					connect: data.authors.map((author) => ({ id: author.id }))
-				},
-				tags: {
-					connect: data.tags.map((tag) => ({ id: tag.id }))
-				},
-				stacks: {
-					connect: data.stacks.map((stack) => ({ id: stack.id }))
-				},
-				cover: data.cover,
-				content: data.content as JSONContent
-			}
-		});
-
-		return message(form, {
-			success: true,
-			message: `Post created successfully.`,
-			description: `The post has been created successfully.`
-		});
 	},
 	update: async (event) => {
 		const form = await superValidate(event, zod(postFormSchema));

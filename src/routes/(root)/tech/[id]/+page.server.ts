@@ -1,5 +1,5 @@
 import { prisma } from '@//server/prisma';
-import { fail, type Actions } from '@sveltejs/kit';
+import { error, fail, type Actions } from '@sveltejs/kit';
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
@@ -33,9 +33,7 @@ const techFormSchema = z.object({
 	versions: z.array(techVersionFormSchema)
 });
 
-export const load = (async ({ params, url }) => {
-	const p = url.searchParams;
-
+export const load = (async ({ params }) => {
 	const { id } = params;
 	if (id == 'new') {
 		const form = await superValidate(zod(techFormSchema));
@@ -101,7 +99,18 @@ export const actions: Actions = {
 				}
 			}
 
-			console.log('DATA: ', data);
+			const find = await prisma.tech.findUnique({
+				where: {
+					name: data.name
+				}
+			});
+
+			if (find) {
+				error(400, {
+					message: `Tag name already exists.`,
+					description: `Please choose a different tag name.`
+				});
+			}
 
 			await prisma.tech.create({
 				data: {

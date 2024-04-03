@@ -1,6 +1,6 @@
 import {
+	CLOUDINARY_API_KEY,
 	CLOUDINARY_API_SECRET,
-	VITE_PUBLIC_CLOUDINARY_API_KEY,
 	VITE_PUBLIC_CLOUDINARY_CLOUD_NAME
 } from '$env/static/private';
 import { json } from '@sveltejs/kit';
@@ -49,7 +49,7 @@ export const POST = (async ({ request }) => {
 			body: JSON.stringify({
 				public_id,
 				signature,
-				api_key: VITE_PUBLIC_CLOUDINARY_API_KEY,
+				api_key: CLOUDINARY_API_KEY,
 				timestamp
 			})
 		}

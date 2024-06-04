@@ -1,5 +1,5 @@
 # Svelte CMS 📃
-## ✨_CMS for Tech Blogging built from scratch using Svelte-Kit_✨
+## ✨ _CMS for Tech Blogging built from scratch using Svelte-Kit_ ✨
 
 ## Features
 - SEO ready.
